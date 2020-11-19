@@ -15,7 +15,7 @@ class Contact {
         return this._address;
     }
     set address(address) {
-        let addressRegex = RegExp('^[A-Za-z0-9,\\.]{3,}([\\s][A-Za-z0-9,\\.]{3,}){0,}$');
+        let addressRegex = RegExp('^[A-Z0-9]{1}[a-zA-Z0-9\\s.,\']{19,}$');
         if (addressRegex.test(address)) {
             this._address = address;
         }
@@ -70,8 +70,8 @@ class Contact {
     }
 
     toString() {
-        return "Name = " + this.name + ", Address = " + this.address +
-            ", City = " + this.city + ", State = " + this.state + ", Zip = " + this.zip + ", Phone Number = " +
-            this.phoneNumber + ", Email = " + this.email;
+        return "Name: " + this.name + ", Address: " + this.address +
+            ", City: " + this.city + ", State: " + this.state + ", Zip: " + this.zip + ", Phone Number: " +
+            this.phoneNumber + ", Email: " + this.email;
     }
 }
