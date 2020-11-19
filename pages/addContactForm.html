@@ -40,7 +40,7 @@
         <div class="input-error">
           <input type="input" class="input" id="address1" name="address" required>
           <valid-message class="valid-address" id="valid-address"for="address"></valid-message>
-          <error-output class="address-error" id="address1-error" for="address"></error-output>
+          <error-output class="address-error" id="address-error" for="address"></error-output>
         </div>
       </div>
       <div class="row-content">
@@ -56,7 +56,7 @@
             <div class="row-container-item">
                 <label>State</label>
                 <select class="item" id="state" name="state">
-                  <option disabled selected hidden>Select State</option>
+                  <option disabled value="" selected hidden>Select State</option>
                   <option value="Jharkhand">Jharkhand</option>
                   <option value="Karnataka">Karnataka</option>
                   <option value="Maharashtra">Maharashtra</option>
@@ -69,7 +69,7 @@
             <label>City</label>
             <select class="item" id="city" name="city" >
               <option disabled selected hidden>Select City</option>
-              <option value="" >Select a state first.</option>
+              <option disabled >Select a state first.</option>
             </select>
           </div>
           <div class="row-container-item">

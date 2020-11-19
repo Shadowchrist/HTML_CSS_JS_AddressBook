@@ -163,13 +163,14 @@ const save = () => {
     try{
         let contactData = createContact();
         alert("Contact added: " + contactData.toString());
+        resetForm();
+        return;
     }
     catch(error)
     {
         alert(error);
         return;
-    }
-    
+    }    
 };
 
 const createContact = () => {
@@ -189,9 +190,45 @@ const createContact = () => {
     return contactData;
 }
 
+const resetForm = () => {
+    setDefaultValue("#name", "");
+    setDefaultMessage(".name-error");
+    setDefaultMessage(".valid-name");
+    setDefaultValue("#address1", "");
+    setDefaultValue("#address2", "");
+    setDefaultMessage(".address-error");
+    setDefaultMessage(".valid-address");
+    setDefaultValue("#state", "");
+    clearDropdownList("#city");
+    setDefaultValue("#zip", "");
+    setDefaultMessage(".zip-error");
+    setDefaultMessage(".valid-zip");
+    setDefaultValue("#phoneNumber", "");
+    setDefaultMessage(".phoneNumber-error");
+    setDefaultMessage(".valid-phoneNumber");
+    setDefaultValue("#email", "");
+    setDefaultMessage(".email-error");
+    setDefaultMessage(".valid-email");
+};
+
 const getInputValue = (id) => {
     let value = document.querySelector(id).value;
     return value;
+}
+
+const setDefaultValue = (id, value) => {
+    const element = document.querySelector(id);
+    element.value = value;
+};
+
+const setDefaultMessage = (id) => {
+    const contentElement = document.querySelector(id);
+    contentElement.textContent = "";
+};
+
+const clearDropdownList = (id) => {
+    const field =  document.querySelector(id);
+    field.innerHTML='<option disabled selected hidden>Select City</option> <option disabled >Select a state first.</option>';
 }
 
 const combineAddress = (line1,line2) => {
