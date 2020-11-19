@@ -163,6 +163,7 @@ const save = () => {
     try{
         let contactData = createContact();
         alert("Contact added: " + contactData.toString());
+        storeContact(contactData);
         resetForm();
         return;
     }
@@ -188,6 +189,19 @@ const createContact = () => {
         return;
     }
     return contactData;
+}
+
+function storeContact(contactData){
+    let contactList = JSON.parse(localStorage.getItem("Contact List: "));
+
+    if(contactList != undefined){
+        contactList.push(contactData);
+    }
+    else{
+        contactList = [contactData];
+    }
+    alert("Contact stored.");
+    localStorage.setItem("Contact List: ",JSON.stringify(contactList));
 }
 
 const resetForm = () => {
