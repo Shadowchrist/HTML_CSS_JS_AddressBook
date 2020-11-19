@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/addContactForm.css">
+  <title>Addressbook UI</title>
+</head>
+
+<body>
+  <header class="header_content header">
+    <div class="logo-content">
+      <img src="../assets/icons/MainIcon.jpeg" alt="">
+      <div>
+        <span class="address-text">ADDRESS</span><br>
+        <span class="address-text book-text">BOOK</span>
+      </div>
+    </div>
+  </header>
+  <div class="form-content">
+    <div class="form-header">
+      <div class="form-head">Add Contact</div>
+      <div class="cancelLogo">
+        <a href="./homePage.html" class="cancelButton"><img src="../assets/icons/CloseButton.jpeg" alt=""></a>
+      </div>
+    </div>
+    <form class="form" action="#" onreset="resetForm()" onsubmit="save()">
+      <div class="row-content">
+        <label>Full Name</label>
+        <div class="input-error">
+          <input type="input" class="input" id="name" name="name" required>
+          <valid-message class="valid-name" id="valid-name"for="name"></valid-message>
+          <error-output class="name-error" id="name-error" for="name"></error-output>
+        </div>
+      </div>
+      <div class="row-content">
+        <label>Address (Line 1)</label>
+        <div class="input-error">
+          <input type="input" class="input" id="address" name="address" required>
+          <valid-message class="valid-address" id="valid-address"for="address"></valid-message>
+          <error-output class="address-error" id="address-error" for="address"></error-output>
+        </div>
+      </div>
+      <div class="row-content">
+        <label>Address (Line 2)</label>
+        <div class="input-error">
+          <input type="input" class="input" id="address" name="address" required>
+          <valid-message class="valid-address" id="valid-address"for="address"></valid-message>
+          <error-output class="address-error" id="address-error" for="address"></error-output>
+        </div>
+      </div>
+      <div class="row-content">
+        <div class="row-container">
+            <div class="row-container-item">
+                <label>State</label>
+                <select class="item" id="state" name="state">
+                  <option disabled selected hidden>Select State</option>
+                  <option value="Jharkhand">Jharkhand</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="West Bengal">West Bengal</option>
+                </select>
+            </div>
+
+          <div class="row-container-item">
+            <label>City</label>
+            <select class="item" id="city" name="city" >
+              <option disabled selected hidden>Select City</option>
+              <option value="" >Select a state first.</option>
+            </select>
+          </div>
+          <div class="row-container-item">
+            <label>Zip</label>
+            <div class="input-error">
+                <input type="input" class="input" id="zip" name="zip" required>
+                <valid-message class="valid-zip" id="valid-zip"for="zip"></valid-message>
+                <error-output class="zip-error" id="zip-error" for="zip"></error-output>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-content">
+        <label>Phone Number</label>
+        <div class="input-error">
+          <input type="input" class="input" id="phoneNumber" name="phoneNumber" required>
+          <valid-message class="valid-phoneNumber" id="valid-phoneNumber"for="phoneNumber"></valid-message>
+          <error-output class="phoneNumber-error" id="phoneNumber-error" for="phoneNumber"></error-output>
+        </div>
+      </div>
+      <div class="row-content">
+        <label>Email</label>
+        <div class="input-error">
+          <input type="email" class="input" id="email" name="email" required>
+          <valid-message class="valid-email" id="valid-email"for="email"></valid-message>
+          <error-output class="email-error" id="email-error" for="email"></error-output>
+        </div>
+      </div>
+      <div class="buttonParent">
+        <div class="submit-reset">
+          <button type="submit" onclick="save()" class="button submitButton" id="submitButton">Add</button>
+          <button type="button" onclick="resetForm()" class="resetButton button">Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script src="../javascript/Contact.js"></script>
+  <script src="../javascript/addContactFormUtility.js"></script>
+</body>
+
+</html>
