@@ -1,105 +1,77 @@
-class Employee{
+class Contact {
 
-    get id()
-    {
-        return this._id;
-    }
-
-    set id(id)
-    {
-        this._id = id;
-    }
-
-    get name()
-    {
+    get name() {
         return this._name;
     }
-
-    set name(name)
-    {
-        let nameRegex = RegExp("^[A-Z]{1}[a-z]{2,}([ ][A-Z]{1}[a-z]{2,})?$");
-        if(nameRegex.test(name))
-        this._name = name;
-        else 
-        throw 'Name is incorrect';
-    }
-
-    get profilePic()
-    {
-        return this._profilePic;
-    }
-
-    set profilePic(profilePic)
-    {
-        this._profilePic = profilePic;
-    }
-
-    get gender()
-    {
-        return this._gender;
-    }
-
-    set gender(gender)
-    {
-        this._gender = gender;
-    }
-
-    get departments()
-    {
-        return this._department;
-    }
-
-    set departments(departments) {
-        if (departments.length != 0) {
-            this._departments = departments;
-        } 
-        else 
-        throw "No Department Entered!";
-    }
-
-    get salary()
-    {
-        return this._salary;
-    }
-
-    set salary(salary)
-    {
-        this._salary = salary;
-    }
-
-    get note()
-    {
-        return this._note;
-    }
-
-    set note(note)
-    {
-        this._note = note;
-    }
-
-    get startDate()
-    {
-        return this._startDate;
-    }
-
-    set startDate(startDate)
-    {
-        let today = new Date();
-        if(startDate<=today)
-        {
-        this._startDate = startDate;
+    set name(name) {
+        let nameRegex = RegExp('^[A-Z]{1}[a-z]{2,}([\\s][A-Z]{1}[a-z]{2,}){0,2}$');
+        if (nameRegex.test(name)) {
+            this._name = name;
         }
-        else
-        throw 'Start Date incorrect';
+        else throw 'Invalid Name!';
     }
 
-    toString()
-    {
-        const dateFormat = {year:'numeric', month:'long', day:'numeric'};
-        const date = (this.startDate === undefined) ? "undefined" :
-                      this.startDate.toLocaleDateString("en-US",dateFormat);
-        return "[ id: " + this.id + ", name: " + this.name + ", gender: " + this.gender + ", profilePicture: " + this._profilePicture +
-               ", salary: " + this.salary + ", startDate: " + date + ", departments: " + this.departments + ", note: " + this._note + " ]" + "\n";
+    get address() {
+        return this._address;
+    }
+    set address(address) {
+        let addressRegex = RegExp('^[A-Za-z0-9,\\.]{3,}([\\s][A-Za-z0-9,\\.]{3,}){0,}$');
+        if (addressRegex.test(address)) {
+            this._address = address;
+        }
+        else throw "Invalid Address!";
     }
 
+    get city() {
+        return this._city;
+    }
+    set city(city) {
+        this._city = city;
+    }
+
+    get state() {
+        return this._state;
+    }
+    set state(state) {
+        this._state = state;
+    }
+
+    get zip() {
+        return this._zip;
+    }
+    set zip(zip) {
+        let zipRegex = RegExp('^[1-9]{1}[0-9]{5}$');
+        if (zipRegex.test(zip)) {
+            this._zip = zip;
+        }
+        else throw "Invalid Zip!";
+    }
+
+    get phoneNumber() {
+        return this._phoneNumber;
+    }
+    set phoneNumber(phoneNumber) {
+        let phoneNumberRegex = RegExp('^(([+])?[0-9]{2}[\\s]){0,1}[1-9]{1}[0-9]{9}$');
+        if (phoneNumberRegex.test(phoneNumber)) {
+            this._phoneNumber = phoneNumber;
+        }
+        else throw "Invalid Phone Number!";
+    }
+
+    get email() {
+        return this._email;
+    }
+    set email(email) {
+        let emailRegex = RegExp("^[a-z0-9]+(([\\.+-][a-z0-9]{1,})?)+@[a-z0-9]+\\.([a-z]{2,4})+((\\.[a-z]{2,4})?)$");
+        if (emailRegex.test(email)) {
+            this._email = email;
+        }
+        else throw "Invalid Email!";
+    }
+
+    toString() {
+        return "Name = " + this.name + ", Address = " + this.address +
+            ", City = " + this.city + ", State = " + this.state + ", Zip = " + this.zip + ", Phone Number = " +
+            this.phoneNumber + ", Email = " + this.email;
+    }
 }
