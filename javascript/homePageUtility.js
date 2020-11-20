@@ -3,6 +3,7 @@ window.addEventListener("DOMContentLoaded", () => {
     contactList = getContactsFromStorage();
     document.querySelector(".contact-count").textContent = contactList.length;
     createInnerHtml();
+    localStorage.removeItem("editContact");
 });
 
 const getContactsFromStorage = () => {
@@ -35,8 +36,8 @@ const createInnerHtml = () => {
             <td>${contact._phoneNumber}</td>
             <td>${contact._email}</td>
             <td>
-                <img id="${contact._phoneNumber}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
-                <img id="${contact._phoneNumber}" onclick="update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg">
+                <img id="${contact._phoneNumber}" onclick="remove('${contact._phoneNumber}')" alt="delete" src="../assets/icons/delete-black-18dp.svg">
+                <img id="${contact._phoneNumber}" onclick="update('${contact._phoneNumber}')" alt="edit" src="../assets/icons/create-black-18dp.svg">
             </td>
         </tr>
         `;
@@ -44,7 +45,33 @@ const createInnerHtml = () => {
     document.querySelector("#display").innerHTML = innerHtml;
 };
 
+const remove = (temp) => {
+    
+    let contactData = contactList.find(contact => contact._phoneNumber === temp);
+    if (!contactData) {
+      return;
+    }
+    const index = contactList
+                  .map(c => c._phoneNumber)
+                  .indexOf(contactData._phoneNumber);
+    contactList.splice(index, 1);
+    localStorage.setItem("Contact List: ", JSON.stringify(contactList));
+    document.querySelector(".contact-count").textContent = contactList.length;
+    window.location.reload();
+    createInnerHTML();
+}
+
+const update = (temp) => {
+    
+    let contactData = contactList.find(contact => contact._phoneNumber === temp);
+    if (!contactData) {
+    return;
+    }
+    localStorage.setItem("editContact", JSON.stringify(contactData));
+    window.location.replace(site_properties.AddContact);
+};
+
 let site_properties = {
     HomePage: "../pages/homePage.html",
-    AddContact: "../pages/addContactsForm.html"
+    AddContact: "../pages/addContactForm.html"
 };

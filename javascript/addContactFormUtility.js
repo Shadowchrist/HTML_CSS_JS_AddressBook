@@ -7,6 +7,8 @@ let stateList = [
     ["West Bengal", "Kolkata"], ["West Bengal", "Durgapur"], ["West Bengal", "Asansol"]
 ]
 
+let loadContact = {};
+
 function createCityList(list, stateinput) {
     const cityList = list.filter(state => state[0] === stateinput).map(s => s[1]);
     const cityfield = document.querySelector("#city");
@@ -159,9 +161,18 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+window.addEventListener('DOMContentLoaded', () => {
+    const editContact = localStorage.getItem("editContact");
+    updateContact = (editContact) ? true : false;
+    if (!updateContact) return;
+    loadContact = JSON.parse(editContact);
+    setForm();
+});
+
 const save = () => {
     try {
-        let contactData = createContact();
+        let contactData= new Contact();
+        createContact(contactData);
         if(checkIfPresent(contactData.phoneNumber))
         {
             alert("Phone Number already present.");
@@ -179,55 +190,91 @@ const save = () => {
     }
 };
 
-const createContact = () => {
-    let contactData = new Contact();
+const createContact = (contactData) => {
+    if(!contactData)
+    {
+        contactData = new Contact();
+        try {
+            contactData._name = getInputValue('#name');
+            contactData._address = combineAddress(getInputValue('#address1'), getInputValue('#address2'));
+            contactData._state = getInputValue('#state');
+            contactData._city = getInputValue('#city');
+            contactData._zip = getInputValue('#zip');
+            contactData._phoneNumber = getInputValue('#phoneNumber');
+            contactData._email = getInputValue('#email');
+        } catch (error) {
+            alert(error);
+            return;
+        }
+        return contactData;
+    }
+    else{
     try {
-        contactData.name = getInputValue('#name');
-        contactData.address = combineAddress(getInputValue('#address1'), getInputValue('#address2'));
-        contactData.state = getInputValue('#state');
-        contactData.city = getInputValue('#city');
-        contactData.zip = getInputValue('#zip');
-        contactData.phoneNumber = getInputValue('#phoneNumber');
-        contactData.email = getInputValue('#email');
+        contactData._name = getInputValue('#name');
+        contactData._address = combineAddress(getInputValue('#address1'), getInputValue('#address2'));
+        contactData._state = getInputValue('#state');
+        contactData._city = getInputValue('#city');
+        contactData._zip = getInputValue('#zip');
+        contactData._phoneNumber = getInputValue('#phoneNumber');
+        contactData._email = getInputValue('#email');
     } catch (error) {
         alert(error);
         return;
     }
     return contactData;
 }
+}
 
-function storeContact(contactData) {
+function storeContact() {
     let contactList = JSON.parse(localStorage.getItem("Contact List: "));
 
-    if (contactList != undefined) {
-        contactList.push(contactData);
+    if (contactList) {
+        let contactData = contactList.find(contact => contact._phoneNumber == loadContact._phoneNumber);
+        if (!contactData) {
+            contactList.push(createContact());
+        } else {
+            const index = contactList.map(contact => contact._phoneNumber).indexOf(contactData._phoneNumber);
+            contactList.splice(index, 1, createContact(contactData));
+        }
+    } else {
+        contactList = [createContact()];
     }
-    else {
-        contactList = [contactData];
-    }
-    alert("Contact stored.");
+    alert("Contact updated in local storage.");
     localStorage.setItem("Contact List: ", JSON.stringify(contactList));
 }
 
+const setForm = () => {
+    setValue('#name', loadContact._name);
+    let addressArray = breakAddress(loadContact._address);
+    setValue('#address1', addressArray[0]);
+    setValue('#address2', addressArray[1])
+    setValue('#state', loadContact._state);
+    showCities();
+    setValue('#city', loadContact._city);
+    setValue('#zip', loadContact._zip);
+    setValue('#phoneNumber', loadContact._phoneNumber);
+    setValue('#email', loadContact._email);
+}
+
 const resetForm = () => {
-    setDefaultValue("#name", "");
-    setDefaultMessage(".name-error");
-    setDefaultMessage(".valid-name");
-    setDefaultValue("#address1", "");
-    setDefaultValue("#address2", "");
-    setDefaultMessage(".address-error");
-    setDefaultMessage(".valid-address");
-    setDefaultValue("#state", "");
+    setValue("#name", "");
+    setMessage(".name-error");
+    setMessage(".valid-name");
+    setValue("#address1", "");
+    setValue("#address2", "");
+    setMessage(".address-error");
+    setMessage(".valid-address");
+    setValue("#state", "");
     clearDropdownList("#city");
-    setDefaultValue("#zip", "");
-    setDefaultMessage(".zip-error");
-    setDefaultMessage(".valid-zip");
-    setDefaultValue("#phoneNumber", "");
-    setDefaultMessage(".phoneNumber-error");
-    setDefaultMessage(".valid-phoneNumber");
-    setDefaultValue("#email", "");
-    setDefaultMessage(".email-error");
-    setDefaultMessage(".valid-email");
+    setValue("#zip", "");
+    setMessage(".zip-error");
+    setMessage(".valid-zip");
+    setValue("#phoneNumber", "");
+    setMessage(".phoneNumber-error");
+    setMessage(".valid-phoneNumber");
+    setValue("#email", "");
+    setMessage(".email-error");
+    setMessage(".valid-email");
 };
 
 function checkIfPresent(phone) {
@@ -249,12 +296,12 @@ const getInputValue = (id) => {
     return value;
 }
 
-const setDefaultValue = (id, value) => {
+const setValue = (id, value) => {
     const element = document.querySelector(id);
     element.value = value;
 };
 
-const setDefaultMessage = (id) => {
+const setMessage = (id) => {
     const contentElement = document.querySelector(id);
     contentElement.textContent = "";
 };
@@ -265,8 +312,30 @@ const clearDropdownList = (id) => {
 }
 
 const combineAddress = (line1, line2) => {
-    let address = line1 + " " + line2;
+    let address = line1 + "_" + line2;
     return address;
+}
+
+const breakAddress = (address) => {
+    let str1 = "", str2 = "";
+    let addressArray = new Array();
+    let pos=0;
+    for(let i=0; i<address.length; i++)
+    {
+        if(address.charAt(i)=='_')
+        {
+            pos=i+1;
+            break;
+        }
+        str1+=address.charAt(i);     
+    }
+    addressArray[0]=str1;
+    for(let j=pos; j<address.length; j++)
+    {
+        str2+=address.charAt(j);
+    }
+    addressArray[1]=str2;
+    return addressArray;
 }
 
 
